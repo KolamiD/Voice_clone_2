@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Субъективная оценка клонирования голоса</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="screen-welcome" class="screen active">
+        <div class="container">
+            <h1>🎧 Субъективная оценка клонирования голоса.   Часть 2</h1>
+            
+            <div class="info-box">
+                <h2>Добро пожаловать!</h2>
+                <p>Спасибо, что согласились участвовать в этом исследовании.</p>
+                <p><strong>Ваша задача:</strong> оценить качество защиты речи и качество клонирования голоса.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>📋 Структура тестирования:</h3>
+                <ul>
+                    <li><strong>Этап 1:</strong> Оценка незаметности защиты.<p>Вы будете слушать пары аудио: <strong>оригинальная</strong> и <strong>защищённая</strong> запись одного диктора. Оцените, насколько защита повлияла на качество речи.</p></li>
+                    <li><strong>Этап 2:</strong> Оценка клонирования.<p style="margin-top: 10px;"><strong>Вы оцениваете:</strong> Для каждой модели (4 шт) вы будете слушать 10 клонированных аудио и для каждого выставлять ДВЕ оценки:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Схожесть с референсом</strong> (насколько клонированный голос похож на оригинал диктора)</li>
+                        <li><strong>Естественность</strong> (насколько речь звучит естественно)</li>
+                    </ul></li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h3>⚠️ Важно:</h3>
+                <ul>
+                    <li>Оценивайте честно, <strong>нет "правильных"</strong> ответов</li>
+                    <li>Выберите <strong>тихое место</strong></li>
+                    <li>Вы можете <strong>делать перерывы</strong></li>
+                    <li>Можно <strong>вернуться назад</strong> и изменить оценки</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h3>🔊 Проверка звука:</h3>
+                <p>Прежде чем начать, убедитесь, что звук работает:</p>
+                <audio id="test-audio" controls>
+                    <source src="audio/speaker_01/original.ogg" type="audio/ogg">
+                    Ваш браузер не поддерживает аудио.
+                </audio>
+            </div>
+
+            <button class="btn btn-primary btn-large" onclick="startEvaluation()">
+                Начать тестирование →
+            </button>
+        </div>
+    </div>
+
+    <div id="screen-stage1" class="screen">
+        <div class="container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-stage1"></div>
+            </div>
+            <p class="progress-text" id="progress-text-stage1">Диктор <span id="current-speaker-stage1">1</span> из 8</p>
+
+            <h2>Этап 1: Оценка незаметности защиты</h2>
+
+            <div class="audio-section">
+                <h3>🔊 Оригинальная запись</h3>
+                <audio id="audio-original-stage1" controls>
+                    <source src="" type="audio/ogg">
+                </audio>
+            </div>
+
+            <div class="audio-section">
+                <h3>🔊 Защищённая запись</h3>
+                <audio id="audio-protected-stage1" controls>
+                    <source src="" type="audio/ogg">
+                </audio>
+            </div>
+
+            <div class="question-section">
+                <h3>Насколько защита изменила качество речи?</h3>
+                <p class="hint">Оцените, насколько защищённая запись отличается от оригинала</p>
+                
+                <div class="rating-buttons" id="rating-stage1">
+                    <button class="rating-btn" data-value="1">
+                        <span class="rating-number">1</span>
+                        <span class="rating-label">Очень сильно ухудшилось - очень сильные искажения</span>
+                    </button>
+                    <button class="rating-btn" data-value="2">
+                        <span class="rating-number">2</span>
+                        <span class="rating-label">Сильно ухудшилось - явные изменения, слушать неприятно</span>
+                    </button>
+                    <button class="rating-btn" data-value="3">
+                        <span class="rating-number">3</span>
+                        <span class="rating-label">Заметно изменилось - заметны изменения, но речь чёткая</span>
+                    </button>
+                    <button class="rating-btn" data-value="4">
+                        <span class="rating-number">4</span>
+                        <span class="rating-label">Почти незаметно - очень лёгкие изменения, почти незаметны</span>
+                    </button>
+                    <button class="rating-btn" data-value="5">
+                        <span class="rating-number">5</span>
+                        <span class="rating-label">Незаметно - защита незаметна, запись звучит как оригинал</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousStage1()" id="btn-prev-stage1">
+                    ← Назад
+                </button>
+                <button class="btn btn-primary" onclick="nextStage1()" id="btn-next-stage1" disabled>
+                    Далее →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-transition" class="screen">
+        <div class="container">
+            <h1>✅ Этап 1 завершён!</h1>
+            
+            <div class="info-box success">
+                <p><strong>Отлично!</strong> Вы оценили качество защиты для всех 7 дикторов.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>📋 Этап 2: Оценка клонирования</h3>
+                <p>Теперь вы будете оценивать клонированные голоса.</p>
+                <ul>
+                    <li>Вы услышите <strong>320 клонированных записей</strong></li>
+                    <li>Для каждой записи оцените: <strong>схожесть</strong> и <strong>качество</strong></li>
+                    <li>Вы можете делать перерывы в любой момент</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h3>Как оценивать?</h3>
+                <p><strong>СХОЖЕСТЬ</strong> — насколько клонированный голос похож на референсный:</p>
+                <ul>
+                    <li>5 = Идентичны (невозможно отличить)</li>
+                    <li>4 = Очень похожи (узнаваемый голос, минимальные отличия)</li>
+                    <li>3 = Средняя схожесть (есть общие черты, но заметны различия)</li>
+                    <li>2 = Слабая схожесть (мало общего, явно разные голоса)</li>
+                    <li>1 = Совершенно разные (никакого сходства)</li>
+                </ul>
+
+                <p><strong>КАЧЕСТВО</strong> — насколько естественно звучит клонированная речь:</p>
+                <ul>
+                    <li>5 = Полностью естественная (как живой человек)</li>
+                    <li>4 = Очень естественная (минимальные признаки синтеза)</li>
+                    <li>3 = Умеренно естественная (заметны артефакты, но приемлема)</li>
+                    <li>2 = Малоестественная (явно синтетическая, роботизированная)</li>
+                    <li>1 = Неестественная (крайне искуственная)</li>
+                </ul>
+            </div>
+
+            <button class="btn btn-primary btn-large" onclick="startStage2()">
+                Начать Этап 2 →
+            </button>
+        </div>
+    </div>
+
+    <div id="screen-stage2" class="screen">
+        <div class="container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-stage2"></div>
+            </div>
+            <p class="progress-text" id="progress-text-stage2">
+                Диктор <span id="current-speaker-stage2">1</span> / 8 | 
+                Модель <span id="current-model-stage2">1</span> / 4 | 
+                Запись <span id="current-clone-stage2">1</span> / 10
+            </p>
+
+            <h2>Этап 2: Оценка клонирования</h2>
+
+            <div class="audio-section">
+                <h3>🔊 Оригинальная запись</h3>
+                <audio id="audio-reference-stage2" controls>
+                    <source src="" type="audio/ogg">
+                </audio>
+            </div>
+
+            <div class="audio-section">
+                <h3>🔊 Клонированная запись</h3>
+                <audio id="audio-clone-stage2" controls>
+                    <source src="" type="audio/wav">
+                </audio>
+            </div>
+
+            <div class="question-section">
+                <h3>1. Схожесть голосов</h3>
+                <p class="hint">Насколько клонированный голос похож на референсный?</p>
+                
+                <div class="rating-buttons" id="rating-similarity">
+                    <button class="rating-btn" data-value="1">
+                        <span class="rating-number">1</span>
+                        <span class="rating-label">Совершенно разные (никакого сходства)</span>
+                    </button>
+                    <button class="rating-btn" data-value="2">
+                        <span class="rating-number">2</span>
+                        <span class="rating-label">Слабая схожесть (мало общего, явно разные голоса)</span>
+                    </button>
+                    <button class="rating-btn" data-value="3">
+                        <span class="rating-number">3</span>
+                        <span class="rating-label">Средняя схожесть (есть общие черты, но заметны различия)</span>
+                    </button>
+                    <button class="rating-btn" data-value="4">
+                        <span class="rating-number">4</span>
+                        <span class="rating-label">Очень похожи (узнаваемый голос, минимальные отличия)</span>
+                    </button>
+                    <button class="rating-btn" data-value="5">
+                        <span class="rating-number">5</span>
+                        <span class="rating-label">Идентичны (невозможно отличить)</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <h3>2. Качество синтеза</h3>
+                <p class="hint">Насколько естественно звучит клонированная речь?</p>
+                
+                <div class="rating-buttons" id="rating-quality">
+                    <button class="rating-btn" data-value="1">
+                        <span class="rating-number">1</span>
+                        <span class="rating-label">Неестественная (крайне искуственная)</span>
+                    </button>
+                    <button class="rating-btn" data-value="2">
+                        <span class="rating-number">2</span>
+                        <span class="rating-label">Малоестественная (явно синтетическая, роботизированная)</span>
+                    </button>
+                    <button class="rating-btn" data-value="3">
+                        <span class="rating-number">3</span>
+                        <span class="rating-label">Умеренно естественная (заметны артефакты, но приемлема)</span>
+                    </button>
+                    <button class="rating-btn" data-value="4">
+                        <span class="rating-number">4</span>
+                        <span class="rating-label">Очень естественная (минимальные признаки синтеза)</span>
+                    </button>
+                    <button class="rating-btn" data-value="5">
+                        <span class="rating-number">5</span>
+                        <span class="rating-label">Полностью естественная (как живой человек)</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousStage2()" id="btn-prev-stage2">
+                    ← Назад
+                </button>
+                <button class="btn btn-primary" onclick="nextStage2()" id="btn-next-stage2" disabled>
+                    Далее →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-complete" class="screen">
+        <div class="container">
+            <h1>🎉 Тестирование завершено!</h1>
+            
+            <div class="info-box success">
+                <p><strong>Спасибо большое за участие!</strong></p>
+                <p>Вы завершили все оценки. Ваши результаты сохранены.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>📊 Статистика:</h3>
+                <ul>
+                    <li>Этап 1: 8 оценок защиты</li>
+                    <li>Этап 2: 320 оценок клонирования</li>
+                    <li><strong>Благодарим за участие в исследовании!</strong></li>
+                </ul>
+            </div>
+
+            <div class="export-section">
+                <h3>💾 Экспорт результатов</h3>
+                <p>Сохраните ваши результаты, нажав на кнопку ниже:</p>
+                <button class="btn btn-primary btn-large" onclick="exportResults()">
+                    📥 Скачать результаты (JSON)
+                </button>
+                <button class="btn btn-secondary" onclick="exportResultsCSV()">
+                    📄 Скачать результаты (CSV)
+                </button>
+            </div>
+            <div class="info-box success">
+                <h3>📤 Автоматическая отправка результатов</h3>
+                <p>Ваши результаты автоматически отправляются исследователю...</p>
+                <p class="hint">Подождите несколько секунд. Если отправка не удалась, скачайте файлы вручную ниже.</p>
+            </div>
+
+            <div class="info-box">
+                <p class="hint">Если результаты не удалось отправить автоматически, просьба отправить оба скаченных файла (JSON и CSV) на почту ko1esovdmitriy@yandex.ru</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
